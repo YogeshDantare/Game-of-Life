@@ -1,0 +1,15 @@
+
+body{
+    text-align: center;
+    
+}
+button{
+    margin: auto auto auto;
+}
+
+
+canvas{ margin: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color:  black;
+}

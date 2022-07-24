@@ -7,7 +7,7 @@ canvas.width=1000;
 
 class GameOfLife{
     constructor(){
-        this.cell_size=10;
+        this.cell_size=5;
         this.cells_in_columns=Math.floor(canvas.height/this.cell_size);
         this.cells_in_rows=Math.floor(canvas.width/this.cell_size);
         this.dead_color="black";
@@ -98,10 +98,11 @@ runGame = () => {
     this.fillArr();
 };
 };
+let repeat;
 function intervalId(){
-    window.setInterval(() => {
+    repeat=window.setInterval(() => {
         game.runGame();
-    }, 100)
+    }, 1000)
 }
 const game = new GameOfLife()
 game.gameSetUp();
@@ -129,10 +130,13 @@ window.onload = () => {
 })
     })
     document.querySelector("#pause").addEventListener("click",()=>{
+       if( document.querySelector("#pause").innerHTML==="Play"){
+        intervalId();
+        document.querySelector("#pause").innerHTML="Pause";
+       }
        
-       
-        window.clearInterval(intervalId());
-        document.querySelector("#pause").innerHTML="Play";
+       else{ window.clearInterval(repeat);
+        document.querySelector("#pause").innerHTML="Play";}
         
     })
     

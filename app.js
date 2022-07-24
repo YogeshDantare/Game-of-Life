@@ -91,7 +91,7 @@ class GameOfLife{
   
   gameSetUp = () => {
     this.arrayInitialization();
-    
+    game.fillArr();
 };
 runGame = () => {
     this.updateLifeCycle();
@@ -102,21 +102,29 @@ let repeat;
 function intervalId(){
     repeat=window.setInterval(() => {
         game.runGame();
-    }, 1000)
+    }, 100)
 }
 const game = new GameOfLife()
 game.gameSetUp();
 
 window.onload = () => {
-   document.querySelector("#start-random").addEventListener("click", () => {
-       game.arrRandom();
-       game.fillArr();
+    document.querySelector("#randomise").addEventListener("click",()=>{
+        game.arrRandom();
+        game.fillArr();
+    })
+   document.querySelector("#start").addEventListener("click", () => {
+       
         intervalId();
     })
+    document.querySelector("#next").addEventListener("click", () => {
+       
+        clearInterval(repeat);
+        game.runGame();
+    })
     document.querySelector("#start-with-my-config").addEventListener("click",()=>{
-        game.fillArr();let count=prompt("How many cell do you want to select?");
+        game.fillArr();
         document.querySelector("canvas").addEventListener("click",()=>{
-            count--;
+            
         let xActive= event.clientX-canvas.getBoundingClientRect().left;
         let yActive=event.clientY-canvas.getBoundingClientRect().top;
         
@@ -125,8 +133,7 @@ window.onload = () => {
      
         game.curr_arr[yActive][xActive]=1;
         game.fillArr();
-    if(count==0)
-        intervalId();
+    
 })
     })
     document.querySelector("#pause").addEventListener("click",()=>{
@@ -142,6 +149,7 @@ window.onload = () => {
     
   document.querySelector("#stop").addEventListener("click", () => {
        game.gameSetUp();
+       clearInterval(repeat);
   })
 }
 

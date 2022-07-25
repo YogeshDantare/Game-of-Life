@@ -48,10 +48,11 @@ class GameOfLife{
         if (total > 4 || total < 3) {
             return 0;
         }
-       
-        else if ( total === 3) {
+        // dead cell with 3 neighbours becomes alive. 0 => 1
+        else if (this.curr_arr[row][col] === 0 && total === 3) {
             return 1;
         }
+        // or returning its status back. 0 => 0; 1 => 1
         
         else {
             return this.curr_arr[row][col];
@@ -71,23 +72,24 @@ class GameOfLife{
             
         
     };
-    getVal=(row,col)  => {
+    setCellValueHelper=(row,col)  => {
         if(row>=0&&row<this.cells_in_rows&&col>=0&&col<this.cells_in_columns)
             return this.curr_arr[row][col];
         
       else return 0;
         };
-    countNeighbours=(row,col)=>{
-        let total=0;
-        for(let i=-1;i<2;i++)
-        for(let j=-1;j<2;j++){
-        if(i===0&&j===0)
-        continue;
-        total+=this.getVal(row+i,col+j);
-    }
-        return total;
-
-    };
+        countNeighbours = (row, col) => {
+            let total_neighbours = 0;
+            total_neighbours += this.setCellValueHelper(row - 1, col - 1);
+            total_neighbours += this.setCellValueHelper(row - 1, col);
+            total_neighbours += this.setCellValueHelper(row - 1, col + 1);
+            total_neighbours += this.setCellValueHelper(row, col - 1);
+            total_neighbours += this.setCellValueHelper(row, col + 1);
+            total_neighbours += this.setCellValueHelper(row + 1, col - 1);
+            total_neighbours += this.setCellValueHelper(row + 1, col);
+            total_neighbours += this.setCellValueHelper(row + 1, col + 1);
+            return total_neighbours;
+        };
   
   gameSetUp = () => {
     this.arrayInitialization();
